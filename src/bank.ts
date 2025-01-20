@@ -120,4 +120,22 @@ export class Bank implements BankType {
     account.balance -= moneyToWithdraw
     return account.balance
     }
+
+    /**
+     * 
+     * @param username - a string representing the username of the customer
+     * @param accountNumber - a number representing the account number of the customer
+     * @returns balance of the account
+     */
+    checkBalance(username: string, accountNumber: number) {
+        if(!this.isUsernameExists(username)){
+            throw new Error('User no found');
+        }
+       const account = this.findAccount(accountNumber);
+       if (!account){
+        throw new Error("cannot find account, deposit money failed");
+    }
+    let amount = account.balance
+    return amount
+    }
 }

@@ -97,3 +97,17 @@ try{
 } catch(e){
     console.log('scenario 2 passed')
 }
+
+console.log('-----------user story4: check balance-----------');
+// balance test scenario 1: user is able to check balance of account
+try{
+    let balance = bank.checkBalance('user1', 1234567890)
+    let expected: number = 3448
+    if (balance != expected) {
+        console.log('scenario 1 fialed. expected: 3448 but got', balance)
+    } else{
+        console.log('scenario 1 passed')
+    }
+} catch(e){
+    console.log('scenario 1 failed, an error occured', e)
+}

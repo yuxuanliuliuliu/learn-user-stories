@@ -109,6 +109,17 @@ var Bank = /** @class */ (function () {
         account.balance -= moneyToWithdraw;
         return account.balance;
     };
+    Bank.prototype.checkBalance = function (username, accountNumber) {
+        if (!this.isUsernameExists(username)) {
+            throw new Error('User no found');
+        }
+        var account = this.findAccount(accountNumber);
+        if (!account) {
+            throw new Error("cannot find account, deposit money failed");
+        }
+        var amount = account.balance;
+        return amount;
+    };
     return Bank;
 }());
 exports.Bank = Bank;
