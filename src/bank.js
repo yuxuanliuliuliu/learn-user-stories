@@ -6,14 +6,14 @@ exports.Bank = void 0;
  * and stores accounts and usernames
  * and is able to create new accounts
  */
-class Bank {
+var Bank = /** @class */ (function () {
     /**
      *
      * @param accounts - a list of accounts to be stored in the bank
      * @param usernames - a list bank verified usernames
      * @returns a new Bank object
      */
-    constructor(accounts, usernames) {
+    function Bank(accounts, usernames) {
         this.accounts = [];
         this.usernames = [];
         this.accounts = accounts;
@@ -24,25 +24,25 @@ class Bank {
      * @param username - a string representing the username
      * @returns true if the username exists in the bank, false otherwise
      */
-    isUsernameExists(username) {
+    Bank.prototype.isUsernameExists = function (username) {
         return this.usernames.includes(username);
-    }
+    };
     /**
      *
      * @param accountNumber - a number representing the account number
      * @returns an AccountType object if the account exists, undefined otherwise
      */
-    findAccount(accountNumber) {
-        return this.accounts.find(account => account.id === accountNumber);
-    }
+    Bank.prototype.findAccount = function (accountNumber) {
+        return this.accounts.find(function (account) { return account.id === accountNumber; });
+    };
     /**
      *
      * @param accountNumber - a number representing the account number
      * @returns true if the account number has 10 digits, false otherwise
      */
-    isAccountNumberValid(accountNumber) {
+    Bank.prototype.isAccountNumberValid = function (accountNumber) {
         return accountNumber.toString().length === 10;
-    }
+    };
     /**
      *
      * @param username - a string representing the username of the customer
@@ -50,7 +50,7 @@ class Bank {
      * @param accountNumber - a number representing the account number of the customer that needs to be created
      * @returns a new account of type AccountType
      */
-    createAccount(username, age, accountNumber) {
+    Bank.prototype.createAccount = function (username, age, accountNumber) {
         if (!this.isUsernameExists(username)) {
             throw new Error('User no found');
         }
@@ -63,23 +63,52 @@ class Bank {
         if (age < 18) {
             throw new Error('Age must be 18 or above');
         }
-        const newAccount = {
+        var newAccount = {
             id: accountNumber,
             balance: 0
         };
         this.accounts.push(newAccount);
         return newAccount;
-    }
-    depositMoney(username, accountNumber, moneyToDeposit) {
+    };
+    /**
+     *
+     * @param username - a string representing the username of the customer
+     * @param accountNumber - a number representing the account number of the customer
+     * @param moneyToDeposit - a number represening the money custmer wish to deposit
+     * @returns a new bank balance
+     */
+    Bank.prototype.depositMoney = function (username, accountNumber, moneyToDeposit) {
         if (!this.isUsernameExists(username)) {
             throw new Error('User no found');
         }
-        const account = this.findAccount(accountNumber);
+        var account = this.findAccount(accountNumber);
         if (!account) {
             throw new Error("cannot find account, deposit money failed");
         }
         account.balance += moneyToDeposit;
         return account.balance;
-    }
-}
+    };
+    /**
+     *
+     * @param username - a string representing the username of the customer
+     * @param accountNumber - a number representing the account number of the customer
+     * @param moneyToDeposit - a number represening the money custmer wish to withdraw
+     * @returns a new bank balance
+     */
+    Bank.prototype.withdrawMoney = function (username, accountNumber, moneyToWithdraw) {
+        if (!this.isUsernameExists(username)) {
+            throw new Error('User no found');
+        }
+        var account = this.findAccount(accountNumber);
+        if (!account) {
+            throw new Error("cannot find account, deposit money failed");
+        }
+        if (account.balance < moneyToWithdraw) {
+            throw new Error('insufficient balance');
+        }
+        account.balance -= moneyToWithdraw;
+        return account.balance;
+    };
+    return Bank;
+}());
 exports.Bank = Bank;

@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const bank_1 = require("../src/bank");
+var bank_1 = require("../src/bank");
 // setup
-const accounts = [{ id: 1234567890, balance: 3448 },
+var accounts = [{ id: 1234567890, balance: 3448 },
     { id: 1234567891, balance: 2424 }];
-const usernames = ['user1', 'user2'];
-const bank = new bank_1.Bank(accounts, usernames);
+var usernames = ['user1', 'user2'];
+var bank = new bank_1.Bank(accounts, usernames);
 // Scenario 1: customer is able to create a new bank account
-const acc = bank.createAccount('user1', 23, 1234567892);
+var acc = bank.createAccount('user1', 23, 1234567892);
 if (acc.id !== 1234567892 || acc.balance !== 0 || acc.id.toString().length !== 10) {
     console.log('Scenario 1 failed');
 }
@@ -15,7 +15,7 @@ else {
     console.log('Scenario 1 passed');
 }
 try {
-    const acc1 = bank.createAccount('user1', 23, 1234567892);
+    var acc1 = bank.createAccount('user1', 23, 1234567892);
     console.log('Scenario 1 failed');
 }
 catch (e) {
@@ -37,10 +37,12 @@ try {
 catch (e) {
     console.log('Scenario 3 passed');
 }
+console.log('-----------user story2: deposit-----------');
 // deposit test scenario 1: user is able to deposit money into the account
 try {
-    let balance = bank.depositMoney('user1', 1234567890, 1000);
-    if (balance != 4448) {
+    var balance = bank.depositMoney('user1', 1234567890, 1000);
+    var expected = 4448;
+    if (balance != expected) {
         console.log('scenario 1 fialed. expected: 4448 but got', balance);
     }
     else {
@@ -49,4 +51,43 @@ try {
 }
 catch (e) {
     console.log('scenario 1 failed, an error occured');
+}
+// deposit test scenario 2: user is unable to deposit money due to incorrect username
+try {
+    var balance = bank.depositMoney('user4', 1234567890, 1000);
+    console.log('scenario 2 failed, expected error message but none');
+}
+catch (e) {
+    console.log('scenario 2 passed');
+}
+// deposit test scenario 2: user is unable to deposit money due to incorrect account number
+try {
+    var balance = bank.depositMoney('user2', 12345678, 1000);
+    console.log('scenario 2 failed, expected error message but none');
+}
+catch (e) {
+    console.log('scenario 2 passed');
+}
+console.log('-----------user story3: withdraw-----------');
+// withdraw test scenario 1: user is able to deposit money into the account
+try {
+    var balance = bank.withdrawMoney('user1', 1234567890, 1000);
+    var expected = 2448;
+    if (balance != expected) {
+        console.log('scenario 1 fialed. expected: 2448 but got', balance);
+    }
+    else {
+        console.log('scenario 1 passed!');
+    }
+}
+catch (e) {
+    console.log('scenario 1 failed, an error occured', e);
+}
+// withdraw test scenario 2: user is unable to withdraw money because balance is too low
+try {
+    var balance = bank.withdrawMoney('user1', 1234567890, 100000);
+    console.log('scenario 2 failed, expected error message but none');
+}
+catch (e) {
+    console.log('scenario 2 passed');
 }

@@ -80,6 +80,13 @@ export class Bank implements BankType {
         return newAccount;
     }
 
+    /**
+     * 
+     * @param username - a string representing the username of the customer
+     * @param accountNumber - a number representing the account number of the customer
+     * @param moneyToDeposit - a number represening the money custmer wish to deposit
+     * @returns a new bank balance
+     */
     depositMoney(username: string, accountNumber: number, moneyToDeposit: number): number | undefined {
         if(!this.isUsernameExists(username)){
             throw new Error('User no found');
@@ -90,5 +97,27 @@ export class Bank implements BankType {
     }
         account.balance += moneyToDeposit
         return account.balance
+    }
+
+    /**
+     * 
+     * @param username - a string representing the username of the customer
+     * @param accountNumber - a number representing the account number of the customer
+     * @param moneyToDeposit - a number represening the money custmer wish to withdraw
+     * @returns a new bank balance
+     */
+    withdrawMoney(username: string, accountNumber: number, moneyToWithdraw: number): number | undefined {
+        if(!this.isUsernameExists(username)){
+            throw new Error('User no found');
+        }
+       const account = this.findAccount(accountNumber);
+       if (!account){
+        throw new Error("cannot find account, deposit money failed");
+    }
+    if( account.balance < moneyToWithdraw) {
+        throw new Error('insufficient balance')
+    }
+    account.balance -= moneyToWithdraw
+    return account.balance
     }
 }
